@@ -25,8 +25,8 @@
 
         <!-- Slide 2 - Study Abroad/International Students -->
         <div class="slide">
-            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1600&auto=format&fit=crop" 
-                 class="w-full h-full object-cover" alt="International students studying">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1600&auto=format&fit=crop" 
+                 class="w-full h-full object-cover" alt="International students studying together">
             <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/70"></div>
             <div class="absolute inset-0 flex items-center justify-center text-center px-4">
                 <div class="max-w-4xl">
