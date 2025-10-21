@@ -65,19 +65,60 @@
         <div class="mt-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white">
             <div class="grid md:grid-cols-3 gap-6 text-center">
                 <div>
-                    <div class="text-4xl font-bold">{{ $subjects->count() }}</div>
+                    <div class="text-4xl font-bold counter" data-target="{{ $subjects->count() }}">0</div>
                     <div class="mt-2">Academic Subjects</div>
                 </div>
                 <div>
-                    <div class="text-4xl font-bold">1500+</div>
+                    <div class="text-4xl font-bold counter" data-target="1500">0</div>
                     <div class="mt-2">Universities Ranked</div>
                 </div>
                 <div>
-                    <div class="text-4xl font-bold">100+</div>
+                    <div class="text-4xl font-bold counter" data-target="100">0</div>
                     <div class="mt-2">Countries</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const duration = 2000; // 2 seconds
+            const increment = target / (duration / 16); // 60fps
+            
+            const updateCount = () => {
+                const count = +counter.innerText;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    requestAnimationFrame(updateCount);
+                } else {
+                    counter.innerText = target + (target > 100 ? '+' : '');
+                }
+            };
+            
+            updateCount();
+        };
+        
+        // Trigger animation when element is in viewport
+        const observerOptions = {
+            threshold: 0.5
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    animateCounter(counter);
+                    observer.unobserve(counter); // Animate only once
+                }
+            });
+        }, observerOptions);
+        
+        counters.forEach(counter => observer.observe(counter));
+    </script>
 </body>
 </html>

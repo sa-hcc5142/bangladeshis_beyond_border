@@ -18,7 +18,7 @@
                     <span class="mx-2">▸</span>
                     <span>United States</span>
                 </nav>
-                <h1 class="text-5xl font-bold text-white mb-2">🇺🇸 United States</h1>
+                <h1 class="text-5xl font-bold text-white mb-2">United States</h1>
                 <p class="text-xl text-blue-100">Study in the Land of Opportunity</p>
             </div>
         </div>
