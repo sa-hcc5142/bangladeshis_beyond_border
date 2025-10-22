@@ -14,7 +14,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('home'); // We're using modal, so redirect to home
+        return view('auth.login');
     }
 
     /**
@@ -27,17 +27,32 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
+        // Check if user exists
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+        
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'No account found with this email. Please sign up first.',
+            ])->withInput($request->only('email'));
+        }
+
         $remember = $request->filled('remember');
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             
+            // Redirect based on role
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.universities.index')
+                    ->with('success', 'Welcome back, Admin ' . Auth::user()->name . '!');
+            }
+            
             return redirect()->intended('/')->with('success', 'Welcome back, ' . Auth::user()->name . '!');
         }
 
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials do not match our records.'],
-        ]);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput($request->only('email'));
     }
 
     /**

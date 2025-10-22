@@ -177,31 +177,38 @@ class QSCsvUniversitySeeder extends Seeder
                 $universityName = trim($row['university_name']);
                 $rank = $this->parseRank($row['rank']);
                 
-                // Generate unique slug
-                $baseSlug = Str::slug($universityName);
-                $slug = $baseSlug;
-                $counter = 1;
+                // Use provided slug or generate new one
+                $slug = !empty($row['slug']) ? $row['slug'] : Str::slug($universityName);
                 
-                while (in_array($slug, $usedSlugs)) {
-                    $slug = $baseSlug . '-' . $counter;
-                    $counter++;
+                // Ensure slug is unique
+                if (in_array($slug, $usedSlugs)) {
+                    $counter = 1;
+                    $baseSlug = $slug;
+                    while (in_array($slug, $usedSlugs)) {
+                        $slug = $baseSlug . '-' . $counter;
+                        $counter++;
+                    }
                 }
                 
                 $usedSlugs[] = $slug;
                 
-                // Determine region from country
+                // Get region from CSV or determine from country
+                $region = !empty($row['region']) && $row['region'] !== 'Other' 
+                    ? $row['region'] 
+                    : $this->determineRegion($row['country'] ?? 'Unknown');
+                
                 $country = $row['country'] ?? 'Unknown';
-                $region = $this->determineRegion($country);
+                $city = $row['city'] ?? 'Unknown';
                 
                 // Create University
                 $university = University::create([
                     'name' => $universityName,
                     'slug' => $slug,
                     'country' => $country,
-                    'city' => $row['city'] ?? 'Unknown',
+                    'city' => $city,
                     'region' => $region,
-                    'description' => $row['description'] ?? 'A leading university known for excellence in research and education.',
-                    'website' => $row['website'] ?? null,
+                    'description' => 'A leading university known for excellence in research and education.',
+                    'website' => null,
                     'is_active' => true,
                 ]);
 
@@ -251,67 +258,40 @@ class QSCsvUniversitySeeder extends Seeder
         $data = [];
         
         if (($handle = fopen($path, "r")) !== false) {
-            $lineNumber = 0;
-            $header = [];
+            // Get header row
+            $header = fgetcsv($handle, 0, ",");
             
+            if (!$header) {
+                fclose($handle);
+                return $data;
+            }
+            
+            // Read data rows
             while (($row = fgetcsv($handle, 0, ",")) !== false) {
-                $lineNumber++;
-                
                 // Skip empty rows
                 if (empty(array_filter($row))) {
                     continue;
                 }
                 
-                // The QS format has headers on line 3 (after title and sub-headers)
-                // Look for the row that contains "Index" and "Rank" and "Name"
-                if (empty($header)) {
-                    // Check if this row contains key column identifiers
-                    if (in_array('Index', $row) || in_array('Rank', $row) || in_array('Name', $row)) {
-                        // This is the header row
-                        $header = array_map(function($col) {
-                            $col = trim($col);
-                            // Map common QS column names to our expected format
-                            $mapping = [
-                                'Name' => 'university_name',
-                                'Institution' => 'university_name',
-                                'Country/Territory' => 'country',
-                                'Location' => 'location',
-                                'Region' => 'region',
-                                'Overall SCORE' => 'overall_score',
-                                'AR SCORE' => 'academic_reputation',
-                                'ER SCORE' => 'employer_reputation',
-                                'CPF SCORE' => 'citations_per_faculty',
-                                'FSR SCORE' => 'faculty_student_ratio',
-                                'IFR SCORE' => 'international_faculty',
-                                'ISR SCORE' => 'international_students',
-                                '2026' => 'rank',
-                                'Rank' => 'rank',
-                            ];
-                            
-                            if (isset($mapping[$col])) {
-                                return $mapping[$col];
-                            }
-                            
-                            // Otherwise normalize the column name
-                            return strtolower(str_replace([' ', '-', '(', ')', '/', '.'], '_', $col));
-                        }, $row);
-                        continue;
-                    }
-                    continue;
-                }
-                
-                // Data rows - combine with header
+                // Combine header with row data
                 if (count($row) === count($header)) {
                     $rowData = array_combine($header, $row);
                     
+                    // Map to expected format
+                    $mappedData = [
+                        'rank' => $rowData['rank'] ?? '',
+                        'university_name' => $rowData['university'] ?? '',
+                        'slug' => $rowData['slug'] ?? '',
+                        'country' => $rowData['country'] ?? '',
+                        'city' => $rowData['city'] ?? '',
+                        'region' => $rowData['region'] ?? '',
+                        'overall_score' => $rowData['score'] ?? 0,
+                        'year' => $rowData['year'] ?? $this->currentYear,
+                    ];
+                    
                     // Skip rows without essential data
-                    if (!empty($rowData['university_name']) && !empty($rowData['rank'])) {
-                        // Extract city from location if needed
-                        if (isset($rowData['location']) && !isset($rowData['city'])) {
-                            $rowData['city'] = $rowData['location'];
-                        }
-                        
-                        $data[] = $rowData;
+                    if (!empty($mappedData['university_name']) && !empty($mappedData['rank'])) {
+                        $data[] = $mappedData;
                     }
                 }
             }

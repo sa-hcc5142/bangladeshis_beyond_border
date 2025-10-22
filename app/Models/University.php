@@ -111,4 +111,40 @@ class University extends Model
     {
         return $this->hasOne(UniversityQuickLink::class);
     }
+
+    /**
+     * Set the website attribute with URL normalization
+     * Prevents double slashes and ensures proper formatting
+     */
+    public function setWebsiteAttribute($value)
+    {
+        if (empty($value)) {
+            $this->attributes['website'] = null;
+            return;
+        }
+
+        // Remove any double slashes except after protocol
+        $normalized = preg_replace('#(?<!:)//+#', '/', $value);
+        
+        // Ensure proper protocol
+        if (!preg_match('#^https?://#i', $normalized)) {
+            $normalized = 'https://' . ltrim($normalized, '/');
+        }
+
+        // Remove trailing slash
+        $this->attributes['website'] = rtrim($normalized, '/');
+    }
+
+    /**
+     * Get the website attribute with URL normalization
+     */
+    public function getWebsiteAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        // Additional safety check for double slashes
+        return preg_replace('#(?<!:)//+#', '/', $value);
+    }
 }

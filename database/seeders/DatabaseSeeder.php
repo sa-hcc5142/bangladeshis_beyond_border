@@ -15,15 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create test user
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Seed users with different roles
+        $this->call([
+            UsersTableSeeder::class,
         ]);
 
-        // Import QS World University Rankings from CSV
+        // Import QS World University Rankings (600 universities) from CSV
         $this->call([
             QSCsvUniversitySeeder::class,
+        ]);
+
+        // Add quick links for universities
+        $this->call([
+            UniversityQuickLinksSeeder::class,
         ]);
     }
 }

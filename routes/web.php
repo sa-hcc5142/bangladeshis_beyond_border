@@ -10,6 +10,11 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+// Admin Routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('universities', \App\Http\Controllers\Admin\UniversityController::class);
+});
+
 // Authentication Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -21,11 +26,14 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/password/reset', [\App\Http\Controllers\Auth\PasswordResetController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/update', [\App\Http\Controllers\Auth\PasswordResetController::class, 'update'])->name('password.update');
 
-// University Rankings Routes
-Route::get('/rankings', [UniversityRankingController::class, 'index'])->name('rankings.index');
-Route::get('/rankings/subjects', [UniversityRankingController::class, 'bySubject'])->name('subjects.browse');
-Route::get('/rankings/subjects/{subject}', [UniversityRankingController::class, 'bySubject'])->name('rankings.by-subject');
-Route::get('/rankings/university/{slug}', [UniversityRankingController::class, 'show'])->name('rankings.show');
+// Public Routes - No Authentication Required
+Route::group([], function () {
+    // University Rankings Routes
+    Route::get('/rankings', [UniversityRankingController::class, 'index'])->name('rankings.index');
+    Route::get('/rankings/subjects', [UniversityRankingController::class, 'bySubject'])->name('subjects.browse');
+    Route::get('/rankings/subjects/{subject}', [UniversityRankingController::class, 'bySubject'])->name('rankings.by-subject');
+    Route::get('/rankings/university/{slug}', [UniversityRankingController::class, 'show'])->name('rankings.show');
+});
 
 // University Deep-Dive Routes
 Route::get('/university/{slug}/alumni', [UniversityRankingController::class, 'alumni'])->name('university.alumni');

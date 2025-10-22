@@ -16,7 +16,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('home'); // We're using modal, so redirect to home
+        return view('auth.register');
     }
 
     /**
@@ -34,6 +34,7 @@ class RegisterController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'user', // Default role
         ]);
 
         Auth::login($user);

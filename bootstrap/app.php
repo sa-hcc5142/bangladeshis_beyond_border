@@ -11,7 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // LAB CONCEPT: Middleware Registration & Aliasing
+        // Register custom middleware with short aliases for use in routes
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'author' => \App\Http\Middleware\AuthorMiddleware::class,
+            'banned' => \App\Http\Middleware\CheckBannedUser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
