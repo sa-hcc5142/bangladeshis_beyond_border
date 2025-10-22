@@ -4,55 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - @yield('title')</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .nav-link {
+            color: #e0e0e0;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+    </style>
+    @stack('styles')
 </head>
-<body class="bg-gray-100">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="w-64 bg-gray-900 text-white">
-            <div class="p-4">
-                <h1 class="text-2xl font-bold">Admin Panel</h1>
-            </div>
-            <nav class="mt-4">
-                <a href="{{ route('admin.universities.index') }}" class="block px-4 py-2 hover:bg-gray-800">Universities</a>
-                <!-- Add more navigation items here -->
-            </nav>
-        </div>
-
-        <!-- Main Content -->
-        <div class="flex-1 overflow-x-hidden overflow-y-auto">
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 flex justify-between items-center">
-                    <h2 class="text-3xl font-bold text-gray-900">@yield('header')</h2>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-gray-700">{{ auth()->user()->name }} ({{ ucfirst(auth()->user()->role) }})</span>
-                        <a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-800">View Site</a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-red-600 hover:text-red-800">Logout</button>
-                        </form>
-                    </div>
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 px-0 sidebar">
+                <div class="p-4">
+                    <h1 class="h4 text-white fw-bold">
+                        <i class="fas fa-user-shield"></i> Admin Panel
+                    </h1>
                 </div>
-            </header>
+                <nav class="nav flex-column mt-4">
+                    <a href="{{ route('admin.universities.index') }}" 
+                       class="nav-link {{ request()->routeIs('admin.universities.*') ? 'active' : '' }}">
+                        <i class="fas fa-university"></i> Universities
+                    </a>
+                    <a href="{{ route('admin.comments.index') }}" 
+                       class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
+                        <i class="fas fa-comments"></i> Comments
+                        @php
+                            $pendingCount = \App\Models\Comment::pending()->count();
+                        @endphp
+                        @if($pendingCount > 0)
+                            <span class="badge bg-warning ms-2">{{ $pendingCount }}</span>
+                        @endif
+                    </a>
+                    <hr class="bg-light">
+                    <a href="{{ route('home') }}" class="nav-link">
+                        <i class="fas fa-home"></i> View Site
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                        @csrf
+                        <button type="submit" class="nav-link border-0 bg-transparent text-start w-100">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </form>
+                </nav>
+            </div>
 
-            <main class="max-w-7xl mx-auto py-6 px-4">
-                @if(session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                        {{ session('success') }}
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <header class="bg-white shadow-sm py-3 px-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">@yield('header')</h2>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="text-muted">
+                                <i class="fas fa-user"></i> {{ auth()->user()->name }}
+                                @if(auth()->user()->hasRole('admin'))
+                                    <span class="badge bg-danger">Admin</span>
+                                @elseif(auth()->user()->hasRole('author'))
+                                    <span class="badge bg-primary">Author</span>
+                                @endif
+                            </span>
+                        </div>
                     </div>
-                @endif
+                </header>
 
-                @if(session('error'))
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                @yield('content')
-            </main>
+                <main class="px-4 pb-4">
+                    @yield('content')
+                </main>
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery (for convenience) -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    
     @stack('scripts')
 </body>
 </html>

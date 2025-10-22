@@ -249,8 +249,23 @@
             </article>
         </div>
 
+        {{-- Q&A Section --}}
+        @php
+            // Get the country model for comments
+            $countryModel = \App\Models\Country::where('slug', request()->segment(2))->first();
+        @endphp
+        
+        @if($countryModel)
+            <div class="my-8">
+                @include('partials.comment-form', [
+                    'commentable_type' => 'App\Models\Country',
+                    'commentable_id' => $countryModel->id
+                ])
+            </div>
+        @endif
+
         <!-- Back Button -->
-        <div class="flex justify-center mb-8">
+        <div class="flex justify-content-center mb-8">
             <a href="{{ route('countries.index') }}" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg smooth-transition inline-flex items-center">
                 <i class="fas fa-arrow-left mr-2"></i>
                 Back to Countries

@@ -11,8 +11,18 @@ Route::get('/', function () {
 })->name('home');
 
 // Admin Routes
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('universities', \App\Http\Controllers\Admin\UniversityController::class);
+    
+    // Comment Management Routes
+    Route::get('/comments', [\App\Http\Controllers\Admin\CommentController::class, 'index'])->name('comments.index');
+    Route::post('/comments/{comment}/approve', [\App\Http\Controllers\Admin\CommentController::class, 'approve'])->name('comments.approve');
+    Route::post('/comments/{comment}/reject', [\App\Http\Controllers\Admin\CommentController::class, 'reject'])->name('comments.reject');
+    Route::post('/comments/{comment}/answer', [\App\Http\Controllers\Admin\CommentController::class, 'answer'])->name('comments.answer');
+    Route::delete('/comments/{comment}', [\App\Http\Controllers\Admin\CommentController::class, 'destroy'])->name('comments.destroy');
+    
+    // Quick approve route (invokable controller)
+    Route::post('/comments/{comment}/quick-approve', \App\Http\Controllers\Admin\ApproveCommentController::class)->name('comments.quick-approve');
 });
 
 // Authentication Routes
@@ -21,6 +31,12 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
+
+// Comment Routes (for authenticated users)
+Route::middleware(['auth', 'banned'])->group(function () {
+    Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store'])->name('comments.store');
+    Route::get('/my-comments', [\App\Http\Controllers\CommentController::class, 'myComments'])->name('comments.my');
+});
 
 // Password Reset Routes
 Route::get('/password/reset', [\App\Http\Controllers\Auth\PasswordResetController::class, 'showResetForm'])->name('password.reset');
