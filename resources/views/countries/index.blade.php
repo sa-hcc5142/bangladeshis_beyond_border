@@ -5,11 +5,11 @@
 @section('content')
 <div style="background: transparent; min-height: 100vh;" class="py-8">
     <!-- Header -->
-    <div class="gradient-panel mb-8">
+    <div class="gradient-primary mb-8 rounded-2xl">
         <div class="container mx-auto px-4 py-12 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4" style="color: #e6f1f3;">Country Guides</h1>
-            <p class="text-xl max-w-3xl mx-auto" style="color: #99a9ad;">
-                Everything you need to know about studying abroad - living costs, culture, language, visa requirements, and more.
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Country Guides</h1>
+            <p class="text-xl max-w-3xl mx-auto text-white/90">
+                Comprehensive guides for the top 6 destinations where Bangladeshi students pursue higher education - from application to campus life.
             </p>
         </div>
     </div>
@@ -213,12 +213,13 @@
         <!-- No Results Message -->
         <div id="noResults" class="hidden text-center py-12">
             <i class="fas fa-search text-6xl mb-4" style="color: rgba(153, 169, 173, 0.3);"></i>
-            <p class="text-xl" style="color: #99a9ad;">No countries found matching your criteria</p>
+            <p class="text-xl" style="color: #99a9ad;">No countries to show yet</p>
+            <p class="text-sm mt-2" style="color: #6b7b80;">We're working on adding guides for this region</p>
         </div>
     </div>
 </div>
 
-@section('scripts')
+@push('scripts')
 <script>
     // Region filter functionality
     const countryCards = document.querySelectorAll('.country-card');
@@ -240,15 +241,30 @@
             filterCountries();
         });
     });
-
     function filterCountries() {
         let visibleCount = 0;
+        
+        // Define which countries belong to which regions
+        const regionMapping = {
+            'North America': ['United States', 'Canada'],
+            'Europe': ['United Kingdom', 'Germany'],
+            'Asia-Pacific': ['Australia', 'Japan'],
+            'Middle East': [],
+            'Latin America': []
+        };
 
         countryCards.forEach(card => {
-            const region = card.dataset.region;
-            const matchesRegion = activeRegion === 'all' || region === activeRegion;
+            const countryName = card.dataset.name;
+            let shouldShow = false;
+            
+            if (activeRegion === 'all') {
+                shouldShow = true;
+            } else {
+                const countriesInRegion = regionMapping[activeRegion] || [];
+                shouldShow = countriesInRegion.includes(countryName);
+            }
 
-            if (matchesRegion) {
+            if (shouldShow) {
                 card.style.display = 'block';
                 visibleCount++;
             } else {
@@ -264,5 +280,5 @@
         }
     }
 </script>
-@endsection
+@endpush
 @endsection

@@ -5,10 +5,10 @@
 @section('content')
 <div class="bg-gray-50 py-8">
     <!-- Header -->
-    <div class="gradient-panel mb-8">
+    <div class="gradient-primary mb-8 rounded-2xl">
         <div class="container mx-auto px-4 py-12 text-center">
             <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Blog</h1>
-            <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p class="text-xl text-white/90 max-w-3xl mx-auto">
                 Student stories, application tips, and insights from the study abroad journey.
             </p>
         </div>
@@ -39,8 +39,8 @@
         <!-- Featured Post -->
         <article class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 blog-post" data-category="Student Stories">
             <div class="grid md:grid-cols-2 gap-0">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop" 
-                     class="w-full h-full object-cover" alt="Featured">
+                <img src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?q=80&w=1200&auto=format&fit=crop" 
+                     class="w-full h-full object-cover" alt="MIT Campus">
                 <div class="p-8">
                     <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
                         <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-semibold">Student Stories</span>
@@ -113,8 +113,8 @@
 
             <!-- Post 3 -->
             <article class="bg-white rounded-xl shadow-lg overflow-hidden card-hover blog-post" data-category="Life Abroad">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop" 
-                     class="w-full h-48 object-cover" alt="Post">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200&auto=format&fit=crop" 
+                     class="w-full h-48 object-cover" alt="US Campus Life">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 text-sm text-gray-500 mb-3">
                         <span class="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full font-semibold text-xs">Life Abroad</span>
@@ -205,19 +205,19 @@
         </div>
 
         <!-- CTA Section -->
-        <div class="gradient-panel rounded-2xl p-8 text-center">
-            <h2 class="text-3xl font-bold text-white mb-4">Want to Share Your Story?</h2>
-            <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+        <div class="gradient-primary rounded-2xl p-8 text-center">
+            <h2 class="text-3xl font-bold mb-4 text-white">Want to Share Your Story?</h2>
+            <p class="mb-6 max-w-2xl mx-auto text-white/90">
                 Help future students by sharing your experiences, tips, and lessons learned from your study abroad journey.
             </p>
-            <a href="{{ route('contribute') }}" class="inline-block px-8 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 smooth-transition">
+            <a href="{{ route('contribute') }}" class="inline-block px-8 py-3 bg-white text-blue-600 font-bold rounded-lg smooth-transition shadow-lg hover:shadow-xl hover:bg-blue-50">
                 Contribute a Post
             </a>
         </div>
     </div>
 </div>
 
-@section('scripts')
+@push('scripts')
 <script>
     // Category filtering
     const categoryFilters = document.querySelectorAll('.category-filter');
@@ -259,5 +259,5 @@
         });
     });
 </script>
-@endsection
+@endpush
 @endsection

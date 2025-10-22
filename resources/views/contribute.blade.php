@@ -5,10 +5,10 @@
 @section('content')
 <div class="bg-gray-50 py-8">
     <!-- Header -->
-    <div class="gradient-panel mb-8">
+    <div class="gradient-primary mb-8 rounded-2xl">
         <div class="container mx-auto px-4 py-12 text-center">
             <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Contribute</h1>
-            <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+            <p class="text-xl text-white/90 max-w-3xl mx-auto">
                 Help fellow Bangladeshi students by contributing data, stories, or code improvements to make this platform better.
             </p>
         </div>
@@ -18,7 +18,7 @@
         <!-- Contribution Options -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <!-- GitHub Contribution -->
-            <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col h-full">
                 <div class="flex items-center mb-6">
                     <i class="fab fa-github text-5xl text-gray-800 mr-4"></i>
                     <div>
@@ -29,7 +29,7 @@
                 <p class="text-gray-700 mb-6">
                     This project is open source on GitHub. You can contribute bug fixes, new features, data updates, or documentation improvements. All contributions are welcome!
                 </p>
-                <div class="space-y-4 mb-6">
+                <div class="space-y-4 mb-6 flex-grow">
                     <div class="flex items-start">
                         <i class="fas fa-code text-blue-600 mr-3 mt-1"></i>
                         <div>
@@ -52,20 +52,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex space-x-4">
+                <div class="flex space-x-4 mt-auto">
                     <a href="#" onclick="openModal('contributionGuideModal'); return false;" 
                        class="flex-1 text-center px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-lg smooth-transition">
                         <i class="fas fa-info-circle mr-2"></i>
                         View Guide
                     </a>
-                                        <a href="https://github.com/sa-hcc5142/bangladeshis_beyond_border" target="_blank"
-                       class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold rounded-xl shadow-2xl transform hover:scale-105 transition-all duration-300">
+                    <a href="https://github.com/sa-hcc5142/bangladeshis_beyond_border" target="_blank"
+                       class="flex-1 text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg smooth-transition">
                         <i class="fab fa-github mr-2"></i>
+                        GitHub Repo
+                    </a>
                 </div>
             </div>
 
             <!-- Share Your Story -->
-            <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col h-full">
                 <div class="flex items-center mb-6">
                     <i class="fas fa-pencil-alt text-5xl text-blue-600 mr-4"></i>
                     <div>
@@ -76,7 +78,7 @@
                 <p class="text-gray-700 mb-6">
                     Your journey matters. Share your application experience, scholarship tips, campus life insights, or cultural adjustment stories to help students preparing for their own adventure.
                 </p>
-                <div class="space-y-4 mb-6">
+                <div class="space-y-4 mb-6 flex-grow">
                     <div class="flex items-start">
                         <i class="fas fa-graduation-cap text-blue-600 mr-3 mt-1"></i>
                         <div>
@@ -100,7 +102,7 @@
                     </div>
                 </div>
                 <a href="mailto:contribute@bangladeshisbeyondborder.com?subject=Blog Post Submission" 
-                   class="block text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg smooth-transition">
+                   class="block text-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg smooth-transition mt-auto">
                     <i class="fas fa-envelope mr-2"></i>
                     Submit Your Story
                 </a>
@@ -108,27 +110,27 @@
         </div>
 
         <!-- How to Contribute Section -->
-        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-            <h2 class="text-3xl font-bold mb-6">How You Can Help</h2>
+        <div class="rounded-xl shadow-lg p-8 mb-8" style="background: rgba(15, 34, 39, 0.9); border: 1px solid rgba(255, 255, 255, 0.06);">
+            <h2 class="text-3xl font-bold mb-6" style="color: #e6f1f3;">How You Can Help</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
-                    <i class="fas fa-university text-4xl text-blue-600 mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">Add University Data</h3>
-                    <p class="text-gray-600 text-sm">
+                <div class="text-center p-6 rounded-xl" style="background: rgba(15, 42, 48, 0.8); border: 1px solid rgba(56, 189, 248, 0.2);">
+                    <i class="fas fa-university text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2" style="color: #e6f1f3;">Add University Data</h3>
+                    <p class="text-sm" style="color: #99a9ad;">
                         Know a university missing from our database? Submit details about programs, scholarships, and admission requirements.
                     </p>
                 </div>
-                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl">
-                    <i class="fas fa-map-marked-alt text-4xl text-green-600 mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">Improve Country Guides</h3>
-                    <p class="text-gray-600 text-sm">
+                <div class="text-center p-6 rounded-xl" style="background: rgba(15, 42, 48, 0.8); border: 1px solid rgba(56, 189, 248, 0.2);">
+                    <i class="fas fa-map-marked-alt text-4xl text-green-400 mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2" style="color: #e6f1f3;">Improve Country Guides</h3>
+                    <p class="text-sm" style="color: #99a9ad;">
                         Living abroad? Share updated living costs, visa processes, and local tips for students in your country.
                     </p>
                 </div>
-                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl">
-                    <i class="fas fa-users text-4xl text-purple-600 mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">Connect Students</h3>
-                    <p class="text-gray-600 text-sm">
+                <div class="text-center p-6 rounded-xl" style="background: rgba(15, 42, 48, 0.8); border: 1px solid rgba(56, 189, 248, 0.2);">
+                    <i class="fas fa-users text-4xl text-purple-400 mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2" style="color: #e6f1f3;">Connect Students</h3>
+                    <p class="text-sm" style="color: #99a9ad;">
                         Help build the community by sharing resources, answering questions, and mentoring applicants.
                     </p>
                 </div>
@@ -136,40 +138,40 @@
         </div>
 
         <!-- Community Stats -->
-        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-lg p-8 text-white text-center mb-8">
+        <div class="gradient-primary rounded-xl shadow-lg p-8 text-white text-center mb-8">
             <h2 class="text-3xl font-bold mb-4">Community Impact</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div>
                     <div class="text-4xl font-bold">600+</div>
-                    <div class="text-blue-100">Universities Listed</div>
+                    <div class="text-white/80">Universities Listed</div>
                 </div>
                 <div>
                     <div class="text-4xl font-bold">56</div>
-                    <div class="text-blue-100">Subject Areas</div>
+                    <div class="text-white/80">Subject Areas</div>
                 </div>
                 <div>
                     <div class="text-4xl font-bold">25+</div>
-                    <div class="text-blue-100">Countries Covered</div>
+                    <div class="text-white/80">Countries Covered</div>
                 </div>
                 <div>
                     <div class="text-4xl font-bold">Open</div>
-                    <div class="text-blue-100">Source Project</div>
+                    <div class="text-white/80">Source Project</div>
                 </div>
             </div>
         </div>
 
         <!-- Guidelines -->
-        <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+        <div class="rounded-xl p-6" style="background: rgba(15, 42, 48, 0.8); border: 2px solid rgba(56, 189, 248, 0.3);">
             <div class="flex items-start space-x-4">
-                <i class="fas fa-info-circle text-3xl text-blue-600 mt-1"></i>
+                <i class="fas fa-info-circle text-3xl text-blue-400 mt-1"></i>
                 <div>
-                    <h3 class="text-xl font-bold mb-2">Contribution Guidelines</h3>
-                    <ul class="space-y-2 text-gray-700">
-                        <li><i class="fas fa-check text-green-600 mr-2"></i>Ensure information is accurate and up-to-date</li>
-                        <li><i class="fas fa-check text-green-600 mr-2"></i>Cite sources when adding data or statistics</li>
-                        <li><i class="fas fa-check text-green-600 mr-2"></i>Follow the existing code style and formatting</li>
-                        <li><i class="fas fa-check text-green-600 mr-2"></i>Be respectful and constructive in all interactions</li>
-                        <li><i class="fas fa-check text-green-600 mr-2"></i>Test your changes before submitting</li>
+                    <h3 class="text-xl font-bold mb-2" style="color: #e6f1f3;">Contribution Guidelines</h3>
+                    <ul class="space-y-2" style="color: #99a9ad;">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Ensure information is accurate and up-to-date</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Cite sources when adding data or statistics</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Follow the existing code style and formatting</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Be respectful and constructive in all interactions</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Test your changes before submitting</li>
                     </ul>
                 </div>
             </div>

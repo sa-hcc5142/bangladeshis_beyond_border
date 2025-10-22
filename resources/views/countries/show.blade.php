@@ -1,13 +1,13 @@
 @extends('layouts.main')
 
-@section('title', 'United States - Country Guide')
+@section('title', $country['name'] . ' - Country Guide')
 
 @section('content')
 <div class="bg-gray-50 py-8">
     <!-- Hero Header -->
     <div class="relative h-64 mb-8 overflow-hidden">
-        <img src="https://images.unsplash.com/photo-1485738422979-f5c462d49f74?q=80&w=1920&auto=format&fit=crop" 
-             class="w-full h-full object-cover" alt="United States">
+        <img src="{{ $country['hero_image'] }}" 
+             class="w-full h-full object-cover" alt="{{ $country['name'] }}">
         <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-indigo-900/60"></div>
         <div class="absolute inset-0 flex items-center">
             <div class="container mx-auto px-4">
@@ -16,10 +16,10 @@
                     <span class="mx-2">▸</span>
                     <a href="{{ route('countries.index') }}" class="hover:underline">Countries</a>
                     <span class="mx-2">▸</span>
-                    <span>United States</span>
+                    <span>{{ $country['name'] }}</span>
                 </nav>
-                <h1 class="text-5xl font-bold text-white mb-2">United States</h1>
-                <p class="text-xl text-blue-100">Study in the Land of Opportunity</p>
+                <h1 class="text-5xl font-bold text-white mb-2">{{ $country['name'] }}</h1>
+                <p class="text-xl text-blue-100">{{ $country['tagline'] }}</p>
             </div>
         </div>
     </div>
@@ -28,19 +28,19 @@
         <!-- Quick Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-                <div class="text-3xl font-bold text-blue-600">150+</div>
+                <div class="text-3xl font-bold text-blue-600">{{ $country['stats']['universities'] }}</div>
                 <div class="text-gray-600 mt-1">Top Universities</div>
             </div>
             <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-                <div class="text-3xl font-bold text-green-600">$1,500</div>
+                <div class="text-3xl font-bold text-green-600">{{ $country['stats']['monthly_cost'] }}</div>
                 <div class="text-gray-600 mt-1">Avg. Monthly Cost</div>
             </div>
             <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-                <div class="text-3xl font-bold text-purple-600">1M+</div>
+                <div class="text-3xl font-bold text-purple-600">{{ $country['stats']['students'] }}</div>
                 <div class="text-gray-600 mt-1">International Students</div>
             </div>
             <div class="bg-white rounded-xl p-6 shadow-lg text-center">
-                <div class="text-3xl font-bold text-orange-600">20-40hrs</div>
+                <div class="text-3xl font-bold text-orange-600">{{ $country['stats']['work_hours'] }}</div>
                 <div class="text-gray-600 mt-1">Work per Week</div>
             </div>
         </div>
@@ -48,8 +48,8 @@
         <!-- Feature Blocks Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <!-- Living Cost -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['living_cost']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Living Cost">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -57,14 +57,14 @@
                         <h2 class="text-2xl font-bold">Living Cost</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Tuition:</strong> $20,000 - $60,000/year (varies by institution)</p>
-                        <p><strong>Housing:</strong> $500 - $1,500/month (on/off campus)</p>
-                        <p><strong>Food:</strong> $300 - $600/month</p>
-                        <p><strong>Transportation:</strong> $50 - $150/month (public transit)</p>
-                        <p><strong>Health Insurance:</strong> $1,500 - $2,500/year (mandatory)</p>
+                        <p><strong>Tuition:</strong> {{ $country['sections']['living_cost']['tuition'] }}</p>
+                        <p><strong>Housing:</strong> {{ $country['sections']['living_cost']['housing'] }}</p>
+                        <p><strong>Food:</strong> {{ $country['sections']['living_cost']['food'] }}</p>
+                        <p><strong>Transportation:</strong> {{ $country['sections']['living_cost']['transport'] }}</p>
+                        <p><strong>Health Insurance:</strong> {{ $country['sections']['living_cost']['insurance'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Budget tip: Public universities in smaller cities offer lower tuition and living costs. Community colleges provide affordable pathway to 4-year degrees. Look for on-campus jobs (up to 20 hrs/week) and assistantships.
+                                {{ $country['sections']['living_cost']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -73,8 +73,8 @@
             </article>
 
             <!-- Language -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['language']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Language">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -82,14 +82,14 @@
                         <h2 class="text-2xl font-bold">Language & ESL</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Primary Language:</strong> English</p>
-                        <p><strong>Required Tests:</strong> TOEFL (80+), IELTS (6.5+), Duolingo (105+)</p>
-                        <p><strong>ESL Programs:</strong> Available at most universities</p>
-                        <p><strong>Conditional Admission:</strong> Yes, many institutions offer</p>
-                        <p><strong>Academic English:</strong> Writing centers and tutoring free</p>
+                        <p><strong>Primary Language:</strong> {{ $country['sections']['language']['primary'] }}</p>
+                        <p><strong>Required Tests:</strong> {{ $country['sections']['language']['tests'] }}</p>
+                        <p><strong>ESL Programs:</strong> {{ $country['sections']['language']['esl'] }}</p>
+                        <p><strong>Conditional Admission:</strong> {{ $country['sections']['language']['admission'] }}</p>
+                        <p><strong>Academic Support:</strong> {{ $country['sections']['language']['support'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Most universities have International Student Support offices offering free conversation partners, writing workshops, and cultural orientation programs. Many cities have ESL community centers for additional practice.
+                                {{ $country['sections']['language']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -98,8 +98,9 @@
             </article>
 
             <!-- Culture -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1200&auto=format&fit=crop" 
+                        <!-- Culture -->
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['culture']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Culture">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -107,14 +108,14 @@
                         <h2 class="text-2xl font-bold">Culture & Academic Life</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Academic Style:</strong> Interactive, discussion-based, critical thinking</p>
-                        <p><strong>Participation:</strong> Expected in class (counted in grade)</p>
-                        <p><strong>Diversity:</strong> Very multicultural campus environments</p>
-                        <p><strong>Student Organizations:</strong> 100-500+ clubs per university</p>
-                        <p><strong>Campus Life:</strong> Active sports, events, Greek life</p>
+                        <p><strong>Academic Style:</strong> {{ $country['sections']['culture']['style'] }}</p>
+                        <p><strong>Participation:</strong> {{ $country['sections']['culture']['participation'] }}</p>
+                        <p><strong>Diversity:</strong> {{ $country['sections']['culture']['diversity'] }}</p>
+                        <p><strong>Student Organizations:</strong> {{ $country['sections']['culture']['organizations'] }}</p>
+                        <p><strong>Campus Life:</strong> {{ $country['sections']['culture']['campus_life'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                American universities emphasize speaking up in class, networking, and extracurricular involvement. Professors expect you to challenge ideas respectfully. Office hours are crucial for building relationships. Join cultural organizations to find community.
+                                {{ $country['sections']['culture']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -123,8 +124,8 @@
             </article>
 
             <!-- Food -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['food']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Food">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -132,14 +133,14 @@
                         <h2 class="text-2xl font-bold">Food & Dining</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Campus Dining:</strong> Meal plans required for freshmen</p>
-                        <p><strong>Halal Options:</strong> Available in most major universities</p>
-                        <p><strong>International Grocery:</strong> Easy access in cities</p>
-                        <p><strong>Eating Out:</strong> $10-20 per meal average</p>
-                        <p><strong>Cooking:</strong> Apartments have full kitchens</p>
+                        <p><strong>Campus Dining:</strong> {{ $country['sections']['food']['campus'] }}</p>
+                        <p><strong>Halal Options:</strong> {{ $country['sections']['food']['halal'] }}</p>
+                        <p><strong>International Grocery:</strong> {{ $country['sections']['food']['grocery'] }}</p>
+                        <p><strong>Eating Out:</strong> {{ $country['sections']['food']['eating_out'] }}</p>
+                        <p><strong>Cooking:</strong> {{ $country['sections']['food']['cooking'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Most campus dining halls offer vegetarian and halal options. Find ethnic grocery stores for ingredients from home. Meal prep saves significant money. Many universities have halal certification for dining facilities. Student discounts available at many restaurants.
+                                {{ $country['sections']['food']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -148,8 +149,8 @@
             </article>
 
             <!-- Community -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['community']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Community">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -157,14 +158,14 @@
                         <h2 class="text-2xl font-bold">Community & Support</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Muslim Student Associations:</strong> Active at most campuses</p>
-                        <p><strong>Prayer Spaces:</strong> Many universities provide</p>
-                        <p><strong>Cultural Centers:</strong> Asian, African, Middle Eastern</p>
-                        <p><strong>Mentorship Programs:</strong> Peer and faculty mentors</p>
-                        <p><strong>International Student Office:</strong> Dedicated support staff</p>
+                        <p><strong>Muslim Student Associations:</strong> {{ $country['sections']['community']['msa'] }}</p>
+                        <p><strong>Prayer Spaces:</strong> {{ $country['sections']['community']['prayer'] }}</p>
+                        <p><strong>Cultural Centers:</strong> {{ $country['sections']['community']['centers'] }}</p>
+                        <p><strong>Mentorship Programs:</strong> {{ $country['sections']['community']['mentorship'] }}</p>
+                        <p><strong>International Student Office:</strong> {{ $country['sections']['community']['iso'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Connect with Bangladeshi Student Associations early. They organize cultural events, help with settling in, and provide homesickness support. Many cities have Bangladeshi communities offering home-cooked meals and cultural connection. Build diverse friendships while maintaining cultural ties.
+                                {{ $country['sections']['community']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -173,8 +174,8 @@
             </article>
 
             <!-- Visa Help -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1436450412740-6b988f486c6b?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['visa']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Visa">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -182,14 +183,14 @@
                         <h2 class="text-2xl font-bold">Visa & Immigration</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Visa Type:</strong> F-1 Student Visa</p>
-                        <p><strong>Processing Time:</strong> 2-4 weeks after interview</p>
-                        <p><strong>Required Documents:</strong> I-20, financial proof, passport</p>
-                        <p><strong>Interview:</strong> At US Embassy in Dhaka</p>
-                        <p><strong>Work Authorization:</strong> CPT, OPT (12-36 months)</p>
+                        <p><strong>Visa Type:</strong> {{ $country['sections']['visa']['type'] }}</p>
+                        <p><strong>Processing Time:</strong> {{ $country['sections']['visa']['processing'] }}</p>
+                        <p><strong>Required Documents:</strong> {{ $country['sections']['visa']['documents'] }}</p>
+                        <p><strong>Interview:</strong> {{ $country['sections']['visa']['interview'] }}</p>
+                        <p><strong>Work Authorization:</strong> {{ $country['sections']['visa']['work'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Apply for visa 3 months before program start. Demonstrate strong ties to Bangladesh and clear intent to return. STEM graduates get 3-year OPT extension. H-1B visa sponsorship possible after graduation. Maintain full-time enrollment (12+ credits) to keep visa status.
+                                {{ $country['sections']['visa']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -198,8 +199,8 @@
             </article>
 
             <!-- Standardized Tests -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['tests']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Tests">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -207,14 +208,14 @@
                         <h2 class="text-2xl font-bold">Standardized Tests</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Undergraduate:</strong> SAT (1200+) or ACT (24+)</p>
-                        <p><strong>Graduate:</strong> GRE (310+), GMAT (650+) for business</p>
-                        <p><strong>English:</strong> TOEFL (80-100), IELTS (6.5-7.5)</p>
-                        <p><strong>Test Optional:</strong> Some schools waive SAT/ACT</p>
-                        <p><strong>Preparation:</strong> 3-6 months recommended</p>
+                        <p><strong>Undergraduate:</strong> {{ $country['sections']['tests']['undergrad'] }}</p>
+                        <p><strong>Graduate:</strong> {{ $country['sections']['tests']['grad'] }}</p>
+                        <p><strong>English:</strong> {{ $country['sections']['tests']['english'] }}</p>
+                        <p><strong>Test Optional:</strong> {{ $country['sections']['tests']['optional'] }}</p>
+                        <p><strong>Preparation:</strong> {{ $country['sections']['tests']['prep'] }}</p>
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Khan Academy offers free SAT prep. Magoosh and Manhattan Prep are popular GRE resources. Take official practice tests to gauge progress. Many schools went test-optional post-COVID. Strong GPA and essays can offset lower test scores. Subject GRE helpful for top PhD programs.
+                                {{ $country['sections']['tests']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -223,8 +224,8 @@
             </article>
 
             <!-- Weather -->
-            <article class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1534088568595-a066f410bcda?q=80&w=1200&auto=format&fit=crop" 
+            <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 hover:shadow-2xl transition-all duration-300">
+                <img src="{{ $country['sections']['weather']['image'] }}" 
                      class="w-full h-48 object-cover" alt="Weather">
                 <div class="p-6">
                     <div class="flex items-center mb-3">
@@ -232,14 +233,14 @@
                         <h2 class="text-2xl font-bold">Climate & Weather</h2>
                     </div>
                     <div class="text-gray-700 space-y-2">
-                        <p><strong>Regional Variation:</strong> Tropical to Arctic climates</p>
-                        <p><strong>Northeast:</strong> Cold winters (-10°C), hot summers</p>
-                        <p><strong>South:</strong> Hot, humid, mild winters</p>
-                        <p><strong>West Coast:</strong> Mediterranean, mild year-round</p>
-                        <p><strong>Midwest:</strong> Four distinct seasons, snowy winters</p>
+                        @foreach($country['sections']['weather'] as $key => $value)
+                            @if($key !== 'image' && $key !== 'tip')
+                                <p><strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong> {{ $value }}</p>
+                            @endif
+                        @endforeach
                         <p class="text-sm text-gray-500 mt-3">
                             <span class="see-more-text line-clamp-3">
-                                Invest in a good winter coat for northern schools. Southern California and Florida have weather similar to Bangladesh. Midwest winters require boots, gloves, and layers. Dorm heating is excellent. Most buildings are connected or have tunnels in cold climates.
+                                {{ $country['sections']['weather']['tip'] }}
                             </span>
                             <button class="see-more-btn text-blue-600 hover:underline ml-1">See more</button>
                         </p>
@@ -258,7 +259,7 @@
     </div>
 </div>
 
-@section('scripts')
+@push('scripts')
 <script>
     // See more functionality
     document.querySelectorAll('.see-more-btn').forEach(btn => {
@@ -274,5 +275,5 @@
         });
     });
 </script>
-@endsection
+@endpush
 @endsection

@@ -222,30 +222,6 @@
             </div>
         </div>
 
-        <!-- Subject Rankings -->
-        @if($subjectRankings->count() > 0)
-        <div class="bg-white rounded-lg shadow-lg p-8">
-            <h2 class="text-2xl font-bold mb-6">Rankings by Subject</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach($subjectRankings as $subjectRanking)
-                <a href="{{ route('rankings.by-subject', $subjectRanking->subject->slug) }}" class="block p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:shadow-md transition">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <span class="text-3xl mr-3">{{ $subjectRanking->subject->icon ?? '📚' }}</span>
-                            <div>
-                                <div class="font-semibold text-gray-800">{{ $subjectRanking->subject->name }}</div>
-                                <div class="text-sm text-gray-600">Rank: #{{ $subjectRanking->rank }}</div>
-                            </div>
-                        </div>
-                        <div class="text-2xl font-bold text-purple-600">
-                            {{ number_format($subjectRanking->score, 1) }}
-                        </div>
-                    </div>
-                </a>
-                @endforeach
-            </div>
-        </div>
-        @endif
     </div>
 </div>
 @endsection

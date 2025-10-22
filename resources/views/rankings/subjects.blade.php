@@ -81,44 +81,67 @@
     </div>
 
     <script>
-        // Counter Animation
-        const counters = document.querySelectorAll('.counter');
-        
-        const animateCounter = (counter) => {
-            const target = +counter.getAttribute('data-target');
-            const duration = 2000; // 2 seconds
-            const increment = target / (duration / 16); // 60fps
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('.counter');
+            let hasAnimated = false;
             
-            const updateCount = () => {
-                const count = +counter.innerText;
+            const animateCounter = (counter) => {
+                const target = +counter.getAttribute('data-target');
+                const duration = 2000; // 2 seconds
+                const increment = target / (duration / 16); // 60fps
+                let current = 0;
                 
-                if (count < target) {
-                    counter.innerText = Math.ceil(count + increment);
-                    requestAnimationFrame(updateCount);
-                } else {
-                    counter.innerText = target + (target > 100 ? '+' : '');
-                }
+                const updateCount = () => {
+                    current += increment;
+                    
+                    if (current < target) {
+                        counter.innerText = Math.ceil(current);
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        counter.innerText = target + (target > 100 ? '+' : '');
+                    }
+                };
+                
+                updateCount();
             };
             
-            updateCount();
-        };
-        
-        // Trigger animation when element is in viewport
-        const observerOptions = {
-            threshold: 0.5
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target;
-                    animateCounter(counter);
-                    observer.unobserve(counter); // Animate only once
+            // Trigger animation when container is in viewport
+            const statsContainer = document.querySelector('.mt-16.bg-gradient-to-r');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        hasAnimated = true;
+                        counters.forEach(counter => {
+                            counter.innerText = '0';
+                            setTimeout(() => animateCounter(counter), 200);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            if (statsContainer) {
+                observer.observe(statsContainer);
+                
+                // Check if already visible on load
+                const rect = statsContainer.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                
+                if (isVisible && !hasAnimated) {
+                    hasAnimated = true;
+                    counters.forEach(counter => {
+                        counter.innerText = '0';
+                        setTimeout(() => animateCounter(counter), 500);
+                    });
                 }
-            });
-        }, observerOptions);
-        
-        counters.forEach(counter => observer.observe(counter));
+            }
+        });
     </script>
 </body>
 </html>
