@@ -83,7 +83,7 @@
                         <input type="checkbox" name="remember" class="w-4 h-4 text-cyan-500 bg-gray-700 border-gray-600 rounded focus:ring-cyan-500">
                         <span class="ml-2 text-sm text-gray-300">Remember me</span>
                     </label>
-                    <a href="#" class="text-sm text-cyan-400 hover:text-cyan-300">Forgot password?</a>
+                    <a href="{{ route('password.reset') }}" class="text-sm text-cyan-400 hover:text-cyan-300">Forgot password?</a>
                 </div>
 
                 <!-- Login Button -->

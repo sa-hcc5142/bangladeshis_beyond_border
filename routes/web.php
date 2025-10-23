@@ -42,6 +42,10 @@ Route::middleware(['auth', 'banned'])->group(function () {
 Route::get('/password/reset', [\App\Http\Controllers\Auth\PasswordResetController::class, 'showResetForm'])->name('password.reset');
 Route::post('/password/update', [\App\Http\Controllers\Auth\PasswordResetController::class, 'update'])->name('password.update');
 
+// Blog Routes
+Route::get('/blogs', [\App\Http\Controllers\BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blogs.show');
+
 // Public Routes - No Authentication Required
 Route::group([], function () {
     // University Rankings Routes
