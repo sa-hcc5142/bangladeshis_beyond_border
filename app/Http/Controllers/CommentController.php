@@ -7,12 +7,6 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('banned'); // Check if user is banned
-    }
-
     /**
      * Store a new question/comment
      */
@@ -21,7 +15,7 @@ class CommentController extends Controller
         $validated = $request->validate([
             'commentable_type' => 'required|in:App\Models\Country,App\Models\Blog',
             'commentable_id' => 'required|integer',
-            'content' => 'required|string|min:10|max:1000',
+            'question' => 'required|string|min:10|max:1000',
         ]);
 
         // Create comment (pending approval)
@@ -29,8 +23,8 @@ class CommentController extends Controller
             'user_id' => auth()->id(),
             'commentable_type' => $validated['commentable_type'],
             'commentable_id' => $validated['commentable_id'],
-            'content' => $validated['content'],
-            'is_approved' => false, // Requires admin approval
+            'question' => $validated['question'],
+            'status' => 'pending', // Requires admin approval
         ]);
 
         return back()->with('success', 'Your question has been submitted and is pending approval.');

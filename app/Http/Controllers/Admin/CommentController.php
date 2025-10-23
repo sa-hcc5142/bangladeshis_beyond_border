@@ -10,12 +10,6 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('admin'); // Only admins can approve/reject
-    }
-
     /**
      * Show all pending comments
      */
@@ -31,8 +25,7 @@ class CommentController extends Controller
             } elseif ($request->status === 'approved') {
                 $query->approved();
             } elseif ($request->status === 'rejected') {
-                $query->where('is_approved', false)
-                      ->whereNotNull('rejected_at');
+                $query->where('status', 'rejected');
             }
         } else {
             $query->pending(); // Default to pending
@@ -53,7 +46,7 @@ class CommentController extends Controller
         ]);
 
         $comment->update([
-            'is_approved' => true,
+            'status' => 'approved',
             'approved_at' => now(),
             'answer' => $validated['answer'] ?? null,
             'answered_by' => isset($validated['answer']) ? auth()->id() : null,
@@ -75,8 +68,8 @@ class CommentController extends Controller
         ]);
 
         $comment->update([
-            'is_approved' => false,
-            'rejected_at' => now(),
+            'status' => 'rejected',
+            'rejection_reason' => $validated['reason'],
         ]);
 
         // Fire event for warning creation
@@ -90,7 +83,7 @@ class CommentController extends Controller
      */
     public function answer(Request $request, Comment $comment)
     {
-        if (!$comment->is_approved) {
+        if ($comment->status !== 'approved') {
             return back()->withErrors(['error' => 'Cannot answer unapproved comments.']);
         }
 

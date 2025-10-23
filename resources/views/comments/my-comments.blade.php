@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('title', 'My Questions')
 
@@ -43,9 +43,9 @@
                                     <span class="badge bg-info mb-2">
                                         {{ class_basename($comment->commentable_type) }}
                                     </span>
-                                    @if($comment->is_approved)
+                                    @if($comment->status === 'approved')
                                         <span class="badge bg-success">Approved</span>
-                                    @elseif($comment->rejected_at)
+                                    @elseif($comment->status === 'rejected')
                                         <span class="badge bg-danger">Rejected</span>
                                     @else
                                         <span class="badge bg-warning">Pending Review</span>
@@ -58,7 +58,7 @@
 
                             <div class="mb-3">
                                 <strong>Your Question:</strong>
-                                <p class="text-muted mb-0">{{ $comment->content }}</p>
+                                <p class="text-muted mb-0">{{ $comment->question }}</p>
                             </div>
 
                             @if($comment->answer)
@@ -69,11 +69,11 @@
                                         Answered {{ $comment->updated_at->diffForHumans() }}
                                     </small>
                                 </div>
-                            @elseif($comment->is_approved)
+                            @elseif($comment->status === 'approved')
                                 <div class="text-muted">
                                     <i class="fas fa-clock"></i> Approved, awaiting answer...
                                 </div>
-                            @elseif($comment->rejected_at)
+                            @elseif($comment->status === 'rejected')
                                 @php
                                     $warning = $comment->warnings()->where('user_id', auth()->id())->first();
                                 @endphp
